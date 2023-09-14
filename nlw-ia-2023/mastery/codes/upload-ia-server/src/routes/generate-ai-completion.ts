@@ -1,3 +1,5 @@
+import { OpenAIStream, streamToResponse } from "ai"
+
 import { FastifyInstance } from "fastify";
 import { openai } from "../lib/openai";
 import { prisma } from "../lib/prisma";
@@ -9,11 +11,11 @@ export async function generateAICompletionRoute(app: FastifyInstance) {
     // Schema do body 
     const bodySchema = z.object({
       videoId: z.string().uuid(),
-      template: z.string(),
+      prompt: z.string(),
       temperature: z.number().min(0).max(1).default(0.5),
     })
     
-    const { videoId, template, temperature } = bodySchema.parse(req.body)
+    const { videoId, prompt, temperature } = bodySchema.parse(req.body)
 
     // Buscando o vídeo pelo id
     const video = await prisma.video.findUniqueOrThrow({
@@ -26,7 +28,7 @@ export async function generateAICompletionRoute(app: FastifyInstance) {
       return res.status(400).send({ error: 'Video transcription was not generated yet.' })
     }
 
-    const promptMessage = template.replace('{transcription}', video.transcription)
+    const promptMessage = prompt.replace('{transcription}', video.transcription)
 
     // Simulando uma conversa com GPT, para ele poder retornar o conteúdo
     const response = await openai.chat.completions.create({
@@ -37,9 +39,17 @@ export async function generateAICompletionRoute(app: FastifyInstance) {
           role: 'user', 
           content: promptMessage 
         }
-      ]
+      ],
+      stream: true
     })
 
-    return response
+    const stream = OpenAIStream(response)
+    
+    streamToResponse(stream, res.raw, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+      }
+    })
   })
 }
