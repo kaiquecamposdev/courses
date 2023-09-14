@@ -38,4 +38,4 @@ public class MSNMessenger extends ServicoMensagensInstantaneas {
 }
 ```
 
-Como ocorre a herança? Simplesmente utilizamos o extends para herdar as ações e propriedades de nesse caso um serviço que é o ServicoMensagensInstantaneas.
+Como podemos realizar a lógica da herança? Utilizaremos o extends para extender todas suas propriedades e métodos do outro objeto. 
