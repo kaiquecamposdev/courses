@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.kaique.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.var;
 
 @RestController
 @RequestMapping("/tasks")
@@ -53,24 +52,29 @@ public class TaskController {
   }
 
   @GetMapping("/")
-  public ResponseEntity<TaskModel> getTasks(HttpServletRequest req) {
-    String userId = req.getAttribute("userId").toString();
-    var tasks = this.taskRepository.findByUserId(UUID.fromString(userId));
+  public ResponseEntity<Object> getTasks(HttpServletRequest req) {
+    Object userId = req.getAttribute("userId");
+    TaskModel tasks = this.taskRepository.findByUserId(UUID.fromString(userId.toString()));
 
     if(tasks == null) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } else if(tasks.getUserId().equals(userId)) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Você não tem permissão para visualizar essa tarefa!");
     }
 
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(tasks);
+    return ResponseEntity.status(HttpStatus.OK).body(tasks);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<String> updateTask(@RequestBody TaskModel taskModel, @PathVariable UUID id, HttpServletRequest req) {
 
-    var task = this.taskRepository.findById(id).orElse(null);
+    TaskModel task = this.taskRepository.findById(id).orElse(null);
+    Object userId = req.getAttribute("userId");
 
     if(task == null) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tarefa não existe!");
+    } else if(!task.getUserId().equals(userId)) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Você não tem permissão para alterar essa tarefa!");
     }
 
     Utils.copyNonNullProperties(taskModel, task);
