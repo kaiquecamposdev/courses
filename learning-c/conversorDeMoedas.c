@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main() {
-  float resultado;
-  char tipoMoeda;
-  char tipoMoedaParaConverter;
+  double resultado;
+  char tipoMoeda[4];
+  char tipoMoedaParaConverter[4];
 
   printf("Conversor de moedas   v1.0 \n\n");
   printf("Autor: Dev. Kaique de Campos M. \n\n");
@@ -15,7 +16,7 @@ int main() {
   printf("USD - Dólar\n\n");
 
   printf("Digite o tipo da moeda para qual será convertida: ");
-  scanf("%c", &tipoMoeda);
+  scanf("%s", &tipoMoeda);
 
   printf("Escolha a moeda que deseja converter:\n\n");
   printf("BRL - Real\n");
@@ -23,42 +24,45 @@ int main() {
   printf("USD - Dólar\n\n");
 
   printf("Digite o tipo da moeda para qual será convertida: ");
-  scanf("%c", &tipoMoedaParaConverter);
+  scanf("%s", &tipoMoedaParaConverter);
 
-  switch (tipoMoedaParaConverter) {
-    case "BRL":
-      if (tipoMoeda == "BRL") {
-        return;
-      } else if (tipoMoeda == "E") {
-        resultado *=  0.188;
-      } else if (tipoMoeda == "USD") {
-        resultado /= 4.92;
-      }
-      break;
-    case "E":
-      if (tipoMoeda == "BRL") {
-        resultado /= 0.188;
-      } else if (tipoMoeda == "E") {
-        resultado;
-      } else if (tipoMoeda == "USD") {
-        resultado /= 5.25;
-      }
-      break;
-    case "USD":
-      if (tipoMoeda == "BRL") {
-        resultado *= 4.92;
-      } else if (tipoMoeda == "E") {
-        resultado *= 0.188 / 5.25;
-      } else if (tipoMoeda == "USD") {
-        resultado;
-      }
-      break;
-    default:
-      printf("Moeda inválida.\n");
-      return 1;
+ if (strcmp(tipoMoedaParaConverter, "BRL") == 0) {
+
+    if (strcmp(tipoMoeda, "BRL") == 0) {
+      resultado = 1;
+    } else if (strcmp(tipoMoeda, "E") == 0) {
+      resultado = 0.188;
+    } else if (strcmp(tipoMoeda, "USD") == 0) {
+      resultado = 4.92;
+    }
+
+  } else if (strcmp(tipoMoedaParaConverter, "E") == 0) {
+
+    if (strcmp(tipoMoeda, "BRL") == 0) {
+      resultado = 1 / 0.188;
+    } else if (strcmp(tipoMoeda, "E") == 0) {
+      resultado = 1;
+    } else if (strcmp(tipoMoeda, "USD") == 0) {
+      resultado = 1 / 5.25;
+    }
+
+  } else if (strcmp(tipoMoedaParaConverter, "USD") == 0) {
+
+    if (strcmp(tipoMoeda, "BRL") == 0) {
+      resultado = 1 / 4.92;
+    } else if (strcmp(tipoMoeda, "E") == 0) {
+      resultado = 0.188 / 5.25;
+    } else if (strcmp(tipoMoeda, "USD") == 0) {
+      resultado = 1;
+    }
+
+  } else {
+    printf("Moeda inválida.\n");
+    return 1;
   }
   
   printf("Conversão = %f\n\n", resultado);
-  system("PAUSE");
-  return 0;
+  printf("Pressione Enter para continuar...");
+  fflush(stdout);
+  char c = getchar();
 }
