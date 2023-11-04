@@ -1,8 +1,8 @@
-import { checkSessionIdExist } from '@/middlewares/check-session-id-exist'
-import { knexDb } from '@/utils/database'
 import { randomUUID } from 'crypto'
 import { FastifyInstance } from 'fastify'
 import * as z from 'zod'
+import { checkSessionIdExist } from '../middlewares/check-session-id-exist'
+import { knexDb } from '../utils/database'
 
 const schemaBody = z.object({
   title: z.string(),
@@ -16,39 +16,44 @@ type SchemaBodyType = z.infer<typeof schemaBody>
 type SchemaParamsType = z.infer<typeof schemaParams>
 
 export async function transactionsRoutes(app: FastifyInstance) {
-  app.get('/', { preHandler: checkSessionIdExist }, async (req, res) => {
+  app.get('/', 
+  { 
+    preHandler: checkSessionIdExist
+  }, async (req, res) => {
     try {
-      const transactions = await knexDb('transactions').select('*').where('session_id', req.cookies.session_id)
+      const transactions = await knexDb('transactions').where('session_id', req.cookies.session_id).select()
       
       if (!transactions) throw new Error('Transactions not found!')
 
-      res.send({
-        transactions,
-      })
+      return {transactions}
     } catch (error) {
       throw new Error('Internal server error!')
     }
   })
-  app.get('/:id', { preHandler: checkSessionIdExist }, async (req, res) => {
+  app.get('/:id', 
+  { 
+    preHandler: checkSessionIdExist 
+  }, async (req, res) => {
     if(!req.params) throw new Error('Params is undefined!')
 
     try {
       const { id } = req.params as SchemaParamsType
-      const transactions = await knexDb('transactions').select('*').where({
+      const transaction = await knexDb('transactions').where({
         id,
         session_id: req.cookies.session_id,
-      })
+      }).select()
       
-      if (!transactions) throw new Error('Transactions not found!')
+      if (!transaction) throw new Error('Transactions not found!')
 
-      res.send({
-        transactions,
-      })
+      return {transaction}
     } catch (error) {
       throw new Error('Internal server error!')
     }
   })
-  app.get('/summary', { preHandler: checkSessionIdExist }, async (req, res) => {
+  app.get('/summary', 
+  { 
+    preHandler: checkSessionIdExist 
+  }, async (req, res) => {
     if(!req.params) throw new Error('Params is undefined!')
 
     try {
@@ -59,7 +64,8 @@ export async function transactionsRoutes(app: FastifyInstance) {
       
       if (!summary) throw new Error('Summary not found!')
 
-      res.send({ summary })
+      return {summary}
+      
     } catch (error) {
       throw new Error('Internal server error!')
     }
@@ -89,12 +95,13 @@ export async function transactionsRoutes(app: FastifyInstance) {
           session_id,
         })
 
-      res.send({ transactions })
+      return {transactions}
+      
     } catch (error) {
       throw new Error('Internal server error!')
     }
   })
-  app.delete('/:id', async (req, res) => {
+  app.delete('/:id', async (req) => {
     if(!req.params) throw new Error('Params is undefined!')
 
     try {
@@ -103,7 +110,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
       
       if (!transactions) throw new Error('Transactions not found!')
 
-      res.send({ message: 'Transaction deleted with success!' })
+      return { message: 'Transaction deleted with success!' }
     } catch (error) {
       throw new Error('Internal server error!')
     }
