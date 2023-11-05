@@ -1,20 +1,63 @@
 import { styled } from 'styled-components'
 
 export const TableContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+
   width: 100%;
+`
+
+export const SearchContainer = styled.form`
+  display: flex;
+
+  gap: 1.5rem;
+`
+
+export const SearchInput = styled.input`
+  flex-grow: 1;
+
+  padding: 1rem;
+  border-radius: 0.375rem;
+
+  background: ${(props) => props.theme['gray-900']};
+  box-shadow: 0 0 0 1px ${(props) => props.theme['gray-800']};
+
+  &::placeholder {
+    color: ${(props) => props.theme['gray-400']};
+  }
+`
+
+export const SearchButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 0.75rem;
+  padding: 0.875rem 2rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 0 0 1px ${(props) => props.theme['green-300']};
+
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.1s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 5px 1px ${(props) => props.theme['green-500']};
+  }
+  & span {
+    font-size: 1rem;
+    font-weight: 700;
+    color: ${(props) => props.theme['green-300']};
+
+    transition: color 0.1s ease-in-out;
+  }
 `
 
 export const TableContent = styled.div`
   display: flex;
   flex-direction: column;
-
-  gap: 1.5rem;
-
-  & form > header {
-    display: flex;
-
-    gap: 1.5rem;
-  }
 `
 
 type PriceHighlightType = {
@@ -47,51 +90,4 @@ export const PriceHighlight = styled.span<PriceHighlightType>`
     props.variant === 'income'
       ? props.theme['green-300']
       : props.theme['red-300']};
-`
-
-export const SearchInput = styled.input`
-  flex-grow: 1;
-
-  padding: 1rem;
-  border-radius: 0.375rem;
-
-  background: ${(props) => props.theme['gray-900']};
-  box-shadow: 0 0 0 1px ${(props) => props.theme['gray-800']};
-
-  &::placeholder {
-    color: ${(props) => props.theme['gray-400']};
-  }
-`
-
-export const SearchButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  gap: 0.75rem;
-  padding: 0.875rem 2rem;
-  border-radius: 0.375rem;
-  box-shadow: 0 0 0 1px ${(props) => props.theme['green-300']};
-
-  background: transparent;
-  cursor: pointer;
-  transition: background 0.1s ease-in-out;
-
-  & svg {
-    transition: color 0.1s ease-in-out;
-  }
-  &:hover {
-    background: ${(props) => props.theme['green-300']};
-
-    & span {
-      color: ${(props) => props.theme['gray-100']};
-    }
-  }
-  & span {
-    font-size: 1rem;
-    font-weight: 700;
-    color: ${(props) => props.theme['green-300']};
-
-    transition: color 0.1s ease-in-out;
-  }
 `

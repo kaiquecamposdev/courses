@@ -16,9 +16,7 @@ export const GlobalStyles = createGlobalStyle`
     outline: 0;
     box-shadow: 0 0 0 2px ${(props) => props.theme['green-500']};
   }
-  #root {
-    min-height: 100dvh;
-  }
+
   body {
     background: ${(props) => props.theme['gray-800']};
     -webkit-font-smoothing: antialiased;

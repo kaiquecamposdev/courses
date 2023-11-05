@@ -6,6 +6,5 @@ export { CaretRightBold } from './CaretRight'
 export { CurrencyDollar } from './CurrencyDollar'
 export { Logo } from './Logo'
 export { MagnifyingGlass } from './MagnifyingGlass'
-export { SearchIcon } from './SearchIcon'
 export { TagSimple } from './TagSimple'
 

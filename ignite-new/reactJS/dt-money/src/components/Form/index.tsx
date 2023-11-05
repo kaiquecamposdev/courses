@@ -1,8 +1,29 @@
-import { PriceHighlight, Table, TableContainer, TableContent } from './styles'
+import { MagnifyingGlass } from '@/components/icons'
+import { defaultTheme } from '@/styles/themes/default'
+import {
+  PriceHighlight,
+  SearchButton,
+  SearchContainer,
+  SearchInput,
+  Table,
+  TableContainer,
+  TableContent,
+} from './styles'
 
 export function Form() {
   return (
     <TableContainer>
+      <SearchContainer>
+        <SearchInput type="text" placeholder="Busque por transações" />
+        <SearchButton>
+          <MagnifyingGlass
+            width={20}
+            height={20}
+            fill={defaultTheme['green-300']}
+          />
+          <span>Buscar</span>
+        </SearchButton>
+      </SearchContainer>
       <TableContent>
         <Table>
           <tbody>

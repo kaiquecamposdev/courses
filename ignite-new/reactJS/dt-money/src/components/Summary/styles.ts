@@ -1,6 +1,6 @@
 import { css, styled } from 'styled-components'
 
-export const SummaryContainer = styled.main`
+export const SummaryContainer = styled.section`
   width: 100%;
 `
 
