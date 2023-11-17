@@ -2,6 +2,10 @@
 
 Bem-vindo ao meu repositório de anotações de aulas! Aqui, você encontrará registros detalhados das aulas que participei em diversos cursos e disciplinas. As anotações são apresentadas no formato Markdown, proporcionando facilidade na leitura e na edição.
 
+## Notion 📋
+
+**Link** -> https://www.notion.so/kiqdev/ReactJs-16e4966a9062424f932091f920a85021?pvs=4
+
 ## Organização 📂
 
 As anotações estão cuidadosamente organizadas por curso e disciplina. Dentro de cada curso, você encontrará uma estrutura lógica, com as anotações divididas por módulo ou aula. Esta organização visa facilitar a navegação e a busca por conteúdos específicos.
